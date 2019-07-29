@@ -21,6 +21,7 @@ def main():
     # 検索窓にキーワード入力し検索
     sr.search(kensu)
 
+    # test.test_Search(kensu)
 
 
     # # url_listをArticleに渡す

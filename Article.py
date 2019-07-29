@@ -27,7 +27,7 @@ class Article(object):
             self.eval_list = []
             #  ex) https://shogidb2.com/games/7a7b47fd78ea0665f212f235794dd4c4d9f26e37
             self.driver.get(link)
-            time.sleep(1)
+            time.sleep(3)
             # tableの取得
             table = self.driver.find_element_by_css_selector("table.table.table-bordered.table-hover.table-sm")
             # trタグの取得
@@ -48,8 +48,8 @@ class Article(object):
                 # 評価値の取得
                 eval = self.driver.find_element_by_css_selector("h4.h5.card-title").get_attribute("textContent")
                 # 評価値：値 の形式になるように整形
-                # eval = eval.replace("プラスは先手有利、マイナスは後手有利", "")
-                # eval = eval.replace("解説","")
+                eval = eval.replace("プラスは先手有利、マイナスは後手有利", "")
+                eval = eval.replace("解説","")
                 # 整形した文字列をリストに格納
                 self.eval_list.append(eval)
                 # 次の手をクリック
@@ -57,11 +57,11 @@ class Article(object):
                 # tspanの親タグID
                 t = self.driver.find_element_by_id("SvgjsText1407").get_attribute("textContent")
                 self.kifu_list.append(t)
-                # print(self.eval_list)
                 if "投了" in t:
                     break
 
+            # self.driver.quit()
             # return self.info_list, self.kifu_list, self.eval_list
             # ファイルに書き込もう
-            # write.test_write(self.info_list, self.kifu_list, self.eval_list)
-            test.test_write(self.kifu_list, self.eval_list)
+            write.test_write(self.info_list, self.kifu_list, self.eval_list)
+            # test.test_write(self.kifu_list, self.eval_list)

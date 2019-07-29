@@ -9,7 +9,8 @@ def kensu():
     driver = webdriver.Chrome()
     url = 'https://shogidb2.com'
     driver.get(url)
-    time.sleep(1)
+    time.sleep(3)
     s = driver.find_element_by_id('game-count').get_attribute("textContent")
     s = s.translate(str.maketrans({'件': '', ',': ''}))
+    driver.quit()
     return int(s)

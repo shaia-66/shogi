@@ -7,18 +7,25 @@ import time
 import sys
 import os
 
-def test_Search():
+def test_Search(kensu):
     driver = webdriver.Chrome()
     url = 'https://shogidb2.com'
-    driver.get(url)
-    ss = driver.find_element_by_id('game-count').get_attribute("textContent")
-    ss = ss.translate(str.maketrans({'件': '', ',': ''}))
+    ii = 10
+    cnt = 20
+    for i in range(kensu):
+        for j in range(cnt):
+            print(j)
+        driver.get(url + '/latest/page/' + str(i))
+
+
+    # ss = driver.find_element_by_id('game-count').get_attribute("textContent")
+    # ss = ss.translate(str.maketrans({'件': '', ',': ''}))
 
     # str = str.replace('件', '')
     # str = str.replace(',', '')
     # str = ','.join(str)
-    print(ss)
-    return int(ss)
+    # print(ss)
+    # return int(ss)
 
 
 def test_write(kifu_list, eval_list):

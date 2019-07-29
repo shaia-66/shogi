@@ -18,24 +18,28 @@ class Search(object):
     # searchのなかで、各URLのページをクリックし、全ての掲載情報を取得する必要がある
     def search(self, kensu):
         print('Search start')
-        page_cnt = 20
-        # WebDriverWait(self.driver, 2).until(EC.presence_of_element_located)
-        time.sleep(1)
+        page_cnt = 5
         at = Article.Article()
-        for i in range(kensu):
-            for j in range(page_cnt):
-                lists = self.driver.find_elements_by_class_name("list-group")
-                for list in lists:
-                    hrefs = list.find_elements_by_tag_name("a")
-                    # hrefsの展開
-                    for href in hrefs:
-                        # hrefの中にあるhrefタグを格納
-                        self.link_list.append(href.get_attribute("href"))
-                # ここでArticleを読んで各URLの詳細情報・棋譜情報・評価情報をもらう必要がある
-                at.article(self.link_list)
+        time.sleep(3)
+        for i in range(1, kensu+1):
             # ここでページの切り替え処理
             self.driver.get(self.url + '/latest/page/' + str(i))
-            time.sleep(1)
+            time.sleep(3)
+            print("iのなかみ > " + str(i))
+
+            # for j in range(page_cnt):
+            lists = self.driver.find_elements_by_class_name("list-group")
+            for list in lists:
+                hrefs = list.find_elements_by_tag_name("a")
+                # hrefsの展開
+                for href in hrefs:
+                    # hrefの中にあるhrefタグを格納
+                    self.link_list.append(href.get_attribute("href"))
+            # ここでArticleを読んで各URLの詳細情報・棋譜情報・評価情報をもらう必要がある
+            at.article(self.link_list)
+            self.link_list = []
+            # print("jのなかみ > " + str(j))
+        self.driver.quit()
 
 
 
