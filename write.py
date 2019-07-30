@@ -1,8 +1,8 @@
 import os.path
+import shutil
 
-def test_write(info_list, kifu_list, eval_list):
+def write(info_list, kifu_list, eval_list):
     info_list[0] = info_list[0].translate(str.maketrans({' ': '-', ':': ''}))
-    # info_list[0] = info_list[0].replace(":","")
     date = info_list[0]
 
     kisen = info_list[1]
@@ -21,19 +21,17 @@ def test_write(info_list, kifu_list, eval_list):
 
     senkei = info_list[5]
 
-    path = "shogi/senkei_betu/" + date + "_" + senkei + "_先手_" + sente + "_後手_" + gote + ".txt"
+    kifu_path = "shogi/senkei_betu/" + senkei + "/" + date + "_" + senkei + "_先手_" + sente + "_後手_" + gote + ".txt"
 
-    if not os.path.exists(path):
-        with open(path, mode='w') as f:
+
+    if not os.path.exists(kifu_path):
+        with open(kifu_path, mode='w') as f:
             f.write(kisen + '\n')
             f.write(kisen_info + '\n')
             f.write('先手：' + sente + '\t\t' + '後手：' + gote + '\n')
-        with open(path, mode='a') as ff:
+        with open(kifu_path, mode='a') as ff:
             for i in range(len(kifu_list)):
                 ff.write(kifu_list[i] + '\t\t' + eval_list[i] + '\n')
-
-    
-
 
     # date = "2019_07_21"
     # senkei = "角換わり"

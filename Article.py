@@ -2,66 +2,55 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 import time
 
-import write
+import Write
 import test
 
 class Article(object):
     def __init__(self):
         self.driver = webdriver.Chrome()
-        # 対局情報
-        self.info_list = []
-        # 棋譜情報
-        self.kifu_list = []
-        # 評価値情報
-        self.eval_list = []
 
     def article(self, link_list):
         print("Article start")
+        eval = ""
         # URLの展開
         for link in link_list:
-            self.info_list = []
-            self.kifu_list = []
-            self.eval_list = []
-            #  ex) https://shogidb2.com/games/7a7b47fd78ea0665f212f235794dd4c4d9f26e37
+            info_list = []
+            kifu_list = []
+            eval_list = []
             self.driver.get(link)
-            time.sleep(3)
-            # tableの取得
-            table = self.driver.find_element_by_css_selector("table.table.table-bordered.table-hover.table-sm")
-            # trタグの取得
+            try:
+                table = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "table.table.table-bordered.table-hover.table-sm")))
+            except:
+                self.driver.quit()
+
             trs = table.find_elements(By.TAG_NAME, "tr")
-            # trsの展開
             for i in range(len(trs)):
-                # tdタグの取得
                 tds = trs[i].find_elements(By.TAG_NAME, "td")
-                # tdsの展開
                 for j in range(0, len(tds)):
-                    # リストに追加
-                    self.info_list.append(tds[j].text)
+                    info_list.append(tds[j].text)
             # 不要な情報の削除
-            del self.info_list[5:9]
+            del info_list[5:9]
 
             # 棋譜の取得
             while True:
-                # 評価値の取得
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located)
                 eval = self.driver.find_element_by_css_selector("h4.h5.card-title").get_attribute("textContent")
                 # 評価値：値 の形式になるように整形
                 eval = eval.replace("プラスは先手有利、マイナスは後手有利", "")
-                eval = eval.replace("解説","")
+                eval = eval.replace("解説", "")
                 # 整形した文字列をリストに格納
-                self.eval_list.append(eval)
+                eval_list.append(eval)
                 # 次の手をクリック
                 self.driver.find_element_by_css_selector("i.fa.fa-forward.fa-2x").click()
                 # tspanの親タグID
                 t = self.driver.find_element_by_id("SvgjsText1407").get_attribute("textContent")
-                self.kifu_list.append(t)
+                kifu_list.append(t)
                 if "投了" in t:
                     break
 
-            # self.driver.quit()
-            # return self.info_list, self.kifu_list, self.eval_list
-            # ファイルに書き込もう
-            write.test_write(self.info_list, self.kifu_list, self.eval_list)
-            # test.test_write(self.kifu_list, self.eval_list)
+            Write.write(info_list, kifu_list, eval_list)
+        self.driver.quit()

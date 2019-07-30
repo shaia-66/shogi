@@ -2,13 +2,27 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 import time
 import sys
 import os
 
+def test_directory(senkei_list):
+    for senkei in senkei_list:
+        path = "shogi/senkei_betu/" + senkei
+        if not os.path.exists(path):
+            os.mkdir(path)
+
 def test_Search(kensu):
-    driver = webdriver.Chrome()
+    # options = Options()
+    # # Chromeのパス（Stableチャネルで--headlessが使えるようになったら不要なはず）
+    # options.binary_location = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+    # # ヘッドレスモードを有効にする（次の行をコメントアウトすると画面が表示される）。
+    # options.add_argument('--headless')
+    # # ChromeのWebDriverオブジェクトを作成する。
+    # self.driver = webdriver.Chrome(chrome_options=options)
+    self.driver = webdriver.Chrome()
     url = 'https://shogidb2.com'
     ii = 10
     cnt = 20
