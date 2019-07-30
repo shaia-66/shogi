@@ -32,12 +32,3 @@ def write(info_list, kifu_list, eval_list):
         with open(kifu_path, mode='a') as ff:
             for i in range(len(kifu_list)):
                 ff.write(kifu_list[i] + '\t\t' + eval_list[i] + '\n')
-
-    # date = "2019_07_21"
-    # senkei = "角換わり"
-    # sente = "AAAA"
-    # gote = "ZZZZ"
-    # path = "shogi/senkei_betu/" + date + "_" + senkei + "_先手_" + sente + "_後手_" + gote + ".txt"
-    # text = "test"
-    # with open(path, mode="w") as f:
-    #     f.write(text)

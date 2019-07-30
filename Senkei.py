@@ -16,7 +16,6 @@ class Senkei(object):
         print("Senkei start")
         data = []
         self.driver.get(self.url)
-        # WebDriverWait(self.driver, 10).until(EC.presence_of_element_located)
         # spanタグの取得(find_elementsで複数取得)
         items = self.driver.find_elements_by_tag_name("span")
         # 取得したspanタグの文字列を展開
